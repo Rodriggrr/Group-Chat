@@ -38,10 +38,16 @@ public:
 
             addr.sin_family = AF_INET;
             addr.sin_port = htons(port);
-            char* hostHeap = new char[host.size()+1];
-            strcpy(hostHeap, host.c_str());
-            addr.sin_addr.s_addr = inet_addr(hostHeap);
-            delete[] hostHeap;
+
+            if(isClient){
+                char* hostHeap = new char[host.size()+1];
+                strcpy(hostHeap, host.c_str());
+                addr.sin_addr.s_addr = inet_addr(hostHeap);
+                delete[] hostHeap;
+            }
+            else {
+                addr.sin_addr.s_addr = INADDR_ANY;
+            }
 
         } catch(...) {
             std::cout << "Error creating socket" << std::endl;
@@ -51,12 +57,38 @@ public:
         if(!isClient){
             int opt = 1;
 
-            //setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, reinterpret_cast<const char*>(&opt), sizeof(opt));
+            setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, reinterpret_cast<const char*>(&opt), sizeof(opt));
 
             //bind winsock
-            if (bind(socket_fd, (sockaddr*)&addr, sizeof(addr)) == SOCKET_ERROR) {
+            while (bind(socket_fd, (sockaddr*)&addr, sizeof(addr)) == SOCKET_ERROR) {
                 int error = WSAGetLastError();
                 std::cerr << "Erro ao vincular o socket: " << error << std::endl;
+                std::cout << "Digite uma nova combinação de IP e porta, deixe em branco para usar a padrão., ou -1 na porta para sair." << std::endl;
+                std::cout << "IP: ";
+                std::string ip;
+                std::getline(std::cin, ip);
+                if(ip.size() > 0) {
+                    char* hostHeap = new char[ip.size()+1];
+                    strcpy(hostHeap, ip.c_str());
+                    addr.sin_addr.s_addr = inet_addr(hostHeap);
+                    delete[] hostHeap;
+                }
+                else {
+                    addr.sin_addr.s_addr = INADDR_ANY;
+                }
+                std::cout << "Porta: ";
+                std::string port;
+                std::getline(std::cin, port);
+                if(port == "-1") exit(0);
+
+                else if(port.size() > 0) {
+                    this->port = std::stoi(port);
+                    addr.sin_port = htons(this->port);
+                }
+                else {
+                    this->port = 49100;
+                    addr.sin_port = htons(this->port);
+                }
                 closesocket(socket_fd);
                 WSACleanup();
                 return 1;
