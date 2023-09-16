@@ -3,10 +3,9 @@
 <!-- toc -->
 
 - [Sobre](#sobre)
-- [Como usar](#como-usar)
-  - [Compilando](#compilando)
-    - [Linux](#linux)
-    - [Windows](#windows)
+- [Compilando](#compilando)
+  - [Linux](#linux)
+  - [Windows](#windows)
 - [Mídia](#mídia)
 
 <!-- toc -->
