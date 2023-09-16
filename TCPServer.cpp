@@ -21,13 +21,13 @@ public:
 void inputHandler();
 void broadcast(std::string msg, int toIgnore);
 
-Socket server(LOCALHOST, 4002);
+Socket server(LOCALHOST, 49100);
 std::vector<std::shared_ptr<Connection>> connections;
 
 
 int main(){
     server.init();
-    std::cout << "Servidor iniciado. Digite !help para ajuda.\n\n";
+    std::cout << "Servidor iniciado na porta " << server.getPort() << ". Digite !help para ajuda.\n\n";
 
     std::thread input(inputHandler);
     input.detach();

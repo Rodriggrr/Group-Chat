@@ -102,10 +102,20 @@ public:
             }
 
         } else {
-            if(connect(socket_fd, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
-                std::cout << "Can't connect to server" << std::endl;
-                return -1;
+            while(connect(socket_fd, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
+                std::cout << "Impossível conectar. Digite uma nova combinação IP:PORTA, ou deixe em branco para sair. (Porta padrão: 49100)" << std::endl;
+                std::string ipPorta;
+                std::getline(std::cin, ipPorta);
+                if(ipPorta.size() > 0) {
+                    auto args = fn::split(ipPorta, ':');
+                    if(args.size() == 2) {
+                        addr.sin_addr.s_addr = inet_addr(args[0].c_str());
+                        addr.sin_port = htons(std::stoi(args[1]));
+                    }
+                }
+                else break;
             }
+            return -1;
         }
         return 0;
     }
@@ -120,6 +130,10 @@ public:
 
     sockaddr_in* getAddrPtr(){
         return &addr;
+    }
+
+    int getPort(){
+        return port;
     }
 
     sockaddr_in getAddr(){
