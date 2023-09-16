@@ -17,20 +17,18 @@
 
 Agora é multiplataforma, você pode usar no Windows ou no Linux!
 
-## Como usar
+### Compilando
 
 Para compilar, você necessita ter instalado o `g++11` |  **[INSTALAR](https://github.com/senapk/fupisfun/blob/master/wiki/configure_cpp.md#configurando-o-compilador-gcc-g)**
 
-### Compilando
-
-#### Linux
+### Linux
 
 ```bash
 g++ -std=c++20 -pthread <cliente ou server> -o out.a
 ./out.a
 ```
 
-#### Windows
+### Windows
 
 ```bash
 g++ -std=c++20 <cliente ou servidor> -o out.exe
