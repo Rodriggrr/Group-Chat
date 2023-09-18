@@ -98,11 +98,15 @@ void Connection::commands(std::string msg){
     if(args[0] == "!list") {
         std::string list = "Usuários conectados:\n";
         for (int i = 0; i < connections.size(); i++){
-            list += std::to_string(i) + ": " + connections[i]->getClient().getIpAddress() + ":" + std::to_string(connections[i]->getClient().getPort()) + " (" + connections[i]->getClient().getHost() + ")" + fn::tostr(ping(connections[i]->getClient())) + " ms\n";
+            list += std::to_string(i) + ": " + connections[i]->getClient().getIpAddress() + ":" + std::to_string(connections[i]->getClient().getPort()) + " (" + connections[i]->getClient().getHost() + ") " + fn::tostr(ping(connections[i]->getClient())) + "ms\n";
         }
         client.send(list);
-    
     } 
+
+    else if(args[0] == "!ping") {
+        client.send(ping(client) + "ms");
+    }
+
     else if (args[0] == "!exit") disconnect();
 
     else if (args[0] == "!whisper"){

@@ -30,7 +30,7 @@ inline void inputHandler(){
         auto args = fn::split(msg, ' ');
         if(args[0] == "!list"){
             for (int i = 0; i < connections.size(); i++){
-                std::cout << i << ": " << connections[i]->getClient().getIpAddress() << ":" << connections[i]->getClient().getPort() << " (" << connections[i]->getClient().getHost() << ")" << ping(connections[i]->getClient())  << " ms" << std::endl;
+                std::cout << i << ": " << connections[i]->getClient().getIpAddress() << ":" << connections[i]->getClient().getPort() << " (" << connections[i]->getClient().getHost() << ") " << ping(connections[i]->getClient())  << "ms" << std::endl;
             }
         }
 
