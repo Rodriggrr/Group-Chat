@@ -1,6 +1,7 @@
 #include <iostream>
 #include <algorithm>
 #include "include/socket/socket.hpp"
+#include "include/ping.hpp"
 
 class Connection {
     Client client;
@@ -97,7 +98,7 @@ void Connection::commands(std::string msg){
     if(args[0] == "!list") {
         std::string list = "Usuários conectados:\n";
         for (int i = 0; i < connections.size(); i++){
-            list += std::to_string(i) + ": " + connections[i]->getClient().getIpAddress() + ":" + std::to_string(connections[i]->getClient().getPort()) + " (" + connections[i]->getClient().getHost() + ")\n";
+            list += std::to_string(i) + ": " + connections[i]->getClient().getIpAddress() + ":" + std::to_string(connections[i]->getClient().getPort()) + " (" + connections[i]->getClient().getHost() + ")" + fn::tostr(ping(connections[i]->getClient())) + " ms\n";
         }
         client.send(list);
     

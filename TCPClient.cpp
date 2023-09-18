@@ -54,6 +54,9 @@ void incomingHandler(){
             host = "";
             break;
         }
+        else if(args[0] == "!ping"){
+            client.send("!pong");
+        }
 
         printr(client.getBufStr());
     }
