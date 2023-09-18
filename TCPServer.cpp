@@ -22,7 +22,7 @@ public:
 void inputHandler();
 void broadcast(std::string msg, int toIgnore);
 
-Socket server(LOCALHOST, 49100);
+Socket server(LOCALHOST0, 49100);
 std::vector<std::shared_ptr<Connection>> connections;
 
 
